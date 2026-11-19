@@ -14,7 +14,6 @@ services:
   - type: web
     name: knsaran45-roboos-web
     runtime: static
-    plan: free
     rootDir: frontend
     buildCommand: npm ci && npm run build
     staticPublishPath: dist
