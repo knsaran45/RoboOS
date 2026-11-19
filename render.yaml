@@ -1,0 +1,27 @@
+services:
+  - type: web
+    name: knsaran45-roboos-api
+    runtime: python
+    plan: free
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /api/health
+    envVars:
+      - key: CORS_ORIGINS
+        value: https://knsaran45-roboos-web.onrender.com
+
+  - type: web
+    name: knsaran45-roboos-web
+    runtime: static
+    plan: free
+    rootDir: frontend
+    buildCommand: npm ci && npm run build
+    staticPublishPath: dist
+    envVars:
+      - key: VITE_API_URL
+        value: https://knsaran45-roboos-api.onrender.com
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
